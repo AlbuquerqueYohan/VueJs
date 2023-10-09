@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TP 09/10/2023</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+    <div v-show="isVisible">
+        <img v-bind:src="imageUrl">
+    </div>
+    <p v-if="isVisible">{{ visibleMessage }}</p>
+    <p v-else>{{ hideMessage }}</p>
+    <button v-on:click=" isVisible =! isVisible ">Afficher/Cacher le texte</button>
+    <br>
+    <br>
+    <button v-on:click=" imageUrl = newUrl">Changer d'image</button>
+    <input type="text" id="imageUrlInput" v-model="newUrl">
+
+</div>
+
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                isVisible: true,
+                visibleMessage: "L'élément est visible !",
+                hideMessage: "Si vous souhaitez voir l'image il faut l'afficher",
+                // size: 10,
+                imageUrl: "https://storage.letudiant.fr/osp/cards/137/tmp/LOGO-230301011731.jpg"
+            };
+        }
+    });
+    app.mount("#app");
+</script>
+</body>
+</html>
