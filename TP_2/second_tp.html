@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TP 10/10/2023</title>
+  <script src="https://unpkg.com/vue@3"></script>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+<div id="app">
+  <div class="todo-container">
+    <h2>Liste des tâches</h2>
+    <div class="form">
+      <input type="text" @keypress.enter="basicTasks.push({task: newTask, completed: false}); newTask = ''"
+             v-model="newTask">
+      <button @click="basicTasks.push({task: newTask, completed: false}); newTask = ''">Ajouter</button>
+    </div>
+    <div v-if="basicTasks.length" class="filter-container">
+      <button @click="isFiltered = !isFiltered" class="filter">{{ isFiltered ? 'Afficher' : 'Cacher' }} Tâches
+        Terminées</button>
+      <p>{{ basicTasks.filter(todo => todo.completed).length }} Tâche{{ basicTasks.filter(todo => todo.completed).length > 1 ? 's' : '' }} completée{{ basicTasks.filter(todo => todo.completed).length > 1 ? 's' : '' }} sur {{
+          basicTasks.length }}</p>
+    </div>
+    <div>
+      <div class="task" :class="{completed: todo.completed}"
+           v-for="(todo, index) in basicTasks.filter(todo => isFiltered ? !todo.completed : todo)">
+        <input type="checkbox" :id="'todo-' + index" v-model="todo.completed">
+        <label :for="'todo-' + index">
+                        <span class="check">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                      clip-rule="evenodd" />
+                            </svg>
+                        </span>
+          <p>{{ todo.task }}</p>
+          <span class="trash" @click="basicTasks = basicTasks.filter((t, i) => i !== index)"> &times; </span>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+      Vue.createApp({
+        data() {
+          return {
+            basicTasks: [
+              { task: 'Appeler le garage', completed: true },
+              { task: 'Organiser réunion avec John Doe', completed: false },
+              { task: 'Séance cardio', completed: true }
+            ],
+            newTask: '',
+            isFiltered: false
+          }
+        }
+      }).mount('#app')
+</script>
+</body>
+
+</html>
